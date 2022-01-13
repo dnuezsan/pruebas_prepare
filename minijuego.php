@@ -12,16 +12,8 @@ class Minijuegos
         $this->conexion = new mysqli(SERVIDOR, USUARIO, CONTRASENIA, BD);
     }
 
-   /*  function insercion()
-    {
-        $sql = "INSERT INTO minijuego ('idMinijuego', 'nombre', 'ruta, 'portada', 'fechaHora) VALUES (?, ?, ?, ?, ?)";
 
-        $consulta = $this->conexion->prepare($sql);
-
-        $resultado = $consulta->$consulta;
-    } */
-
-    function insercion()
+    /* function insercion()
     {
         $sql = "INSERT INTO minijuego ('idMinijuego', 'nombre') VALUES (?, ?)";
 
@@ -34,6 +26,24 @@ class Minijuegos
         }
 
         $consulta_prep->close();
+    } */
+
+    function insercion_masiva(){ /* Terminar */
+
+        $sql = "INSERT INTO minijuego ('idMinijuego', 'nombre') VALUES (?,?)";
+
+        $consulta= $this->conexion->prepare($sql);
+
+        $datos_insertados = [['id'=>1,'nombre'=>"Pitufen"],
+        ['id'=>2,'nombre'=>"El chumberisco"],
+        ['id'=>3, 'nombre'=>"Presley dean"]];
+
+
+        $consulta->bind_param('is', $datos_insertados[1]);
+
+        $consulta->execute();
+
+        $consulta->close();
     }
 
 }
