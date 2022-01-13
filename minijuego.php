@@ -38,10 +38,11 @@ class Minijuegos
         ['id'=>2,'nombre'=>"El chumberisco"],
         ['id'=>3, 'nombre'=>"Presley dean"]];
 
+        $consulta->bind_param('is', $datos_insertados['id'], $datos_insertados['nombre']);
 
-        $consulta->bind_param('is', $datos_insertados[1]);
-
-        $consulta->execute();
+        foreach ($datos_insertados as $dato) {
+            $consulta->execute();
+        }
 
         $consulta->close();
     }
