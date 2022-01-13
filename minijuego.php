@@ -3,48 +3,101 @@
 require 'config.php';
 
 //preparacion de insercion
-class Minijuegos
+class Minijuego
 {
     protected $conexion;
 
     function __construct()
     {
         $this->conexion = new mysqli(SERVIDOR, USUARIO, CONTRASENIA, BD);
+        if ($this->conexion->errno) {
+            echo "Se ha producido el error: " . $this->conexion->errno;
+        }
     }
 
 
-    /* function insercion()
+    function insercion()
     {
-        $sql = "INSERT INTO minijuego ('idMinijuego', 'nombre') VALUES (?, ?)";
+        $sql = "INSERT INTO minijuego (id, nombre) VALUES (?, ?)";
 
         $consulta_prep = $this->conexion->prepare($sql);
 
-        $consulta_prep->bind_param('is', $_POST['idMinijuego'], $_POST['nombre']);
+        $id = 1;
+        $nombre = "Peter Parker";
+
+        $consulta_prep->bind_param('is', $id, $nombre);
 
         if ($consulta_prep->execute()) {
             echo "Se ha realizado la inserción";
+        } else {
+            echo "No se finalizó el proceso";
         }
 
         $consulta_prep->close();
-    } */
+    }
 
-    function insercion_masiva(){ /* Terminar */
+    /* Tmambién funciona sin las tablas*/
+    function insercion_masiva()
+    { /* Terminar */
 
-        $sql = "INSERT INTO minijuego ('idMinijuego', 'nombre') VALUES (?,?)";
+        $sql = "INSERT INTO minijuego (id, nombre) VALUES (?,?)";
 
-        $consulta= $this->conexion->prepare($sql);
+        $consulta = $this->conexion->prepare($sql);
 
-        $datos_insertados = [['id'=>1,'nombre'=>"Pitufen"],
-        ['id'=>2,'nombre'=>"El chumberisco"],
-        ['id'=>3, 'nombre'=>"Presley dean"]];
+        $datos_insertados = [
+            [1, "Pitufen"],
+            [2, "El chumberisco"],
+            [3, "Presley dean"]
+        ];
 
-        $consulta->bind_param('is', $datos_insertados['id'], $datos_insertados['nombre']);
+        $longitud_array = count($datos_insertados);
 
-        foreach ($datos_insertados as $dato) {
+        $consulta->bind_param('is', $a, $b);
+        $contador = 0;
+
+        foreach ($datos_insertados as list($a, $b)) {
             $consulta->execute();
+
+            $contador++;
+
+            if ($contador == $longitud_array) {
+                echo 'Se ha llevado a cabo la inserción';
+            }
         }
 
         $consulta->close();
     }
 
+    function borrado(){
+        $sql = "DELETE FROM minijuego WHERE id = ?";
+
+        $consulta = $this->conexion->prepare($sql);
+
+        $id = 1;
+
+        $consulta->bind_param('i', $id);
+
+        if ($consulta->execute()) {
+            echo "Hecho";
+        }
+        
+        $consulta->close();
+    }
+
+    function modificar(){
+        $sql = "UPDATE minijuego SET nombre = 'Adivinanzas' WHERE id = ?";
+
+        $consulta = $this->conexion->prepare($sql);
+
+        $id = 1;
+
+        $consulta->bind_param("i", $id);
+
+        if ($consulta->execute()) {
+            echo "actualizado";
+        }
+
+        $consulta->close();
+
+    }
 }
