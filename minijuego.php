@@ -36,9 +36,9 @@ class Minijuego
         $consulta_prep->close();
     }
 
-    /* Tmambién funciona sin las tablas*/
+
     function insercion_masiva()
-    { /* Terminar */
+    {
 
         $sql = "INSERT INTO minijuego (id, nombre) VALUES (?,?)";
 
@@ -68,7 +68,8 @@ class Minijuego
         $consulta->close();
     }
 
-    function borrado(){
+    function borrado()
+    {
         $sql = "DELETE FROM minijuego WHERE id = ?";
 
         $consulta = $this->conexion->prepare($sql);
@@ -80,11 +81,12 @@ class Minijuego
         if ($consulta->execute()) {
             echo "Hecho";
         }
-        
+
         $consulta->close();
     }
 
-    function modificar(){
+    function modificar()
+    {
         $sql = "UPDATE minijuego SET nombre = 'Adivinanzas' WHERE id = ?";
 
         $consulta = $this->conexion->prepare($sql);
@@ -98,6 +100,26 @@ class Minijuego
         }
 
         $consulta->close();
+    }
 
+    function select(){
+
+        $sql = 'SELECT * FROM minijuego WHERE id = ?';
+
+        $consulta = $this->conexion->prepare($sql);
+
+        $consulta->bind_param('i', $idDB);
+
+        $arrayId = [1,2,3,4];
+
+        foreach ($arrayId as $idDB) {
+            $consulta->execute();
+            $resultado = $consulta->get_result();
+            while ($fila = $resultado->fetch_array(MYSQLI_ASSOC)) {
+                echo $fila['nombre']." ";
+            }
+        }
+
+        $consulta->close();
     }
 }

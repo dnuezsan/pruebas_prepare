@@ -11,6 +11,7 @@
     <input type="submit" name="insertar" value="insertar">
     <input type="submit" name="borrar" value="borrar">
     <input type="submit" name="actualizar" value="actualizar">
+    <input type="submit" name="seleccionar" value="seleccionar">
     </form>
     <?php
     require 'minijuego.php';
@@ -29,6 +30,10 @@
 
     if (isset($_POST["actualizar"])) {
         $prueba->modificar();
+    }
+
+    if (isset($_POST['seleccionar'])) {
+        $prueba->select();
     }
     
     ?>
